@@ -1,0 +1,107 @@
+package zodiac;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Arrays;
+
+public class ZodiacSignApp extends JFrame {
+
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JLabel birthdateLabel;
+    private JTextField dayTextField;
+    private JComboBox<String> monthComboBox;
+    private JButton submitButton;
+    private JLabel resultLabel;
+
+    private final String[] months = {"January", "February", "March", "April", "May", "June", "July",
+            "August", "September", "October", "November", "December"};
+
+    private final String[] zodiacSigns = {
+            "Aquarius", "Pisces", "Aries", "Taurus",4 "Gemini", "Cancer",
+            "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn"
+    };
+
+    public ZodiacSignApp() {
+        setTitle("Zodiac Sign App");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 200);
+        setLayout(new FlowLayout());
+
+        birthdateLabel = new JLabel("Enter your birthdate:");
+        add(birthdateLabel);
+
+        dayTextField = new JTextField(2);
+        add(dayTextField);
+
+        monthComboBox = new JComboBox<>(months);
+        add(monthComboBox);
+
+        submitButton = new JButton("Submit");
+        add(submitButton);
+
+        resultLabel = new JLabel("");
+        add(resultLabel);
+
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int day = Integer.parseInt(dayTextField.getText());
+                String month = (String) monthComboBox.getSelectedItem();
+
+                Month selectedMonth = Month.valueOf(month.toUpperCase());
+                LocalDate birthdate = LocalDate.of(LocalDate.now().getYear(), selectedMonth, day);
+
+                String zodiacSign = getZodiacSign(birthdate);
+                resultLabel.setText("Your zodiac sign is: " + zodiacSign);
+            }
+        });
+    }
+
+    private String getZodiacSign(LocalDate birthdate) {
+        int day = birthdate.getDayOfMonth();
+        int month = birthdate.getMonthValue();
+
+        if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) {
+            return zodiacSigns[0]; // Aquarius
+        } else if ((month == 2 && day >= 19) || (month == 3 && day <= 20)) {
+            return zodiacSigns[1]; // Pisces
+        } else if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) {
+            return zodiacSigns[2]; // Aries
+        } else if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) {
+            return zodiacSigns[3]; // Taurus
+        } else if ((month == 5 && day >= 21) || (month == 6 && day <= 20)) {
+            return zodiacSigns[4]; // Gemini
+        } else if ((month == 6 && day >= 21) || (month == 7 && day <= 22)) {
+            return zodiacSigns[5]; // Cancer
+        } else if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) {
+            return zodiacSigns[6]; // Leo
+        } else if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) {
+            return zodiacSigns[7]; // Virgo
+        } else if ((month == 9 && day >= 23) || (month == 10 && day <= 22)) {
+            return zodiacSigns[8]; // Libra
+        } else if ((month == 10 && day >= 23) || (month == 11 && day <= 21)) {
+            return zodiacSigns[9]; // Scorpio
+        } else if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) {
+            return zodiacSigns[10]; // Sagittarius
+        } else {
+            return zodiacSigns[11]; // Capricorn
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new ZodiacSignApp().setVisible(true);
+            }
+        });
+    }
+}
+
